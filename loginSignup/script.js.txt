@@ -1,0 +1,54 @@
+function signup() {
+    var email = document.getElementById("signup-email").value;
+    var password = document.getElementById("signup-password").value;
+    var confirmPassword = document.getElementById("confirm-password").value;
+    var signupError = document.getElementById("signup-error");
+
+    // Validate domain
+    var validDomains = ['gmail.com', 'yahoo.com', 'hotmail.com', 'outlook.com', 'example.com', 'yourdomain.com', 'yourdomain.co'];
+    var domain = email.split('@')[1];
+    if (!validDomains.includes(domain)) {
+        signupError.textContent = "Please enter a valid email address with a supported domain.";
+        return false;
+    }
+
+    if (password !== confirmPassword) {
+        signupError.textContent = "Passwords do not match";
+        return false;
+    }
+
+    // Save user data (in a real application, this would go to a database)
+    localStorage.setItem("userEmail", email);
+    localStorage.setItem("userPassword", password);
+
+    // Clear error message if validation passes
+    signupError.textContent = "";
+    return true;
+}
+
+function login() {
+    var email = document.getElementById("login-email").value;
+    var password = document.getElementById("login-password").value;
+    var loginError = document.getElementById("login-error");
+
+    // Retrieve user data from localStorage
+    var storedEmail = localStorage.getItem("userEmail");
+    var storedPassword = localStorage.getItem("userPassword");
+
+    if (email !== storedEmail || password !== storedPassword) {
+        loginError.textContent = "Invalid email or password";
+        return false;
+    }
+
+    // Clear error message if validation passes
+    loginError.textContent = "";
+    return true;
+}
+
+function toggleForm() {
+    var loginForm = document.getElementById("login");
+    var signupForm = document.getElementById("signup");
+
+    loginForm.classList.toggle("active");
+    signupForm.classList.toggle("active");
+}
